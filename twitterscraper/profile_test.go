@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	twitterscraper "github.com/n0madic/twitter-scraper"
+	twitterscraper "github.com/ppramesi/twitter-scraper/twitterscraper"
 )
 
 func TestGetProfile(t *testing.T) {
@@ -30,7 +30,7 @@ func TestGetProfile(t *testing.T) {
 		Website:        "https://nomadic.name",
 	}
 
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
@@ -86,7 +86,7 @@ func TestGetProfilePrivate(t *testing.T) {
 		Website:        "",
 	}
 
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
@@ -121,7 +121,7 @@ func TestGetProfilePrivate(t *testing.T) {
 }
 
 func TestGetProfileErrorSuspended(t *testing.T) {
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
@@ -139,7 +139,7 @@ func TestGetProfileErrorSuspended(t *testing.T) {
 func TestGetProfileErrorNotFound(t *testing.T) {
 	neUser := "sample3123131"
 	expectedError := fmt.Sprintf("User '%s' not found", neUser)
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
@@ -155,7 +155,7 @@ func TestGetProfileErrorNotFound(t *testing.T) {
 }
 
 func TestGetUserIDByScreenName(t *testing.T) {
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)

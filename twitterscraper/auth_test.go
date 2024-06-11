@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	twitterscraper "github.com/n0madic/twitter-scraper"
+	twitterscraper "github.com/ppramesi/twitter-scraper/twitterscraper"
 )
 
 var (
@@ -13,7 +13,7 @@ var (
 	password     = os.Getenv("TWITTER_PASSWORD")
 	email        = os.Getenv("TWITTER_EMAIL")
 	skipAuthTest = os.Getenv("SKIP_AUTH_TEST") != ""
-	testScraper  = twitterscraper.New()
+	testScraper  = twitterscraper.New([]twitterscraper.AuthToken{})
 )
 
 func init() {
@@ -29,7 +29,7 @@ func TestAuth(t *testing.T) {
 	if skipAuthTest {
 		t.Skip("Skipping test due to environment variable")
 	}
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	if err := scraper.Login(username, password, email); err != nil {
 		t.Fatalf("Login() error = %v", err)
 	}
@@ -37,7 +37,7 @@ func TestAuth(t *testing.T) {
 		t.Fatalf("Expected IsLoggedIn() = true")
 	}
 	cookies := scraper.GetCookies()
-	scraper2 := twitterscraper.New()
+	scraper2 := twitterscraper.New([]twitterscraper.AuthToken{})
 	scraper2.SetCookies(cookies)
 	if !scraper2.IsLoggedIn() {
 		t.Error("Expected restored IsLoggedIn() = true")
@@ -51,7 +51,7 @@ func TestAuth(t *testing.T) {
 }
 
 func TestLoginOpenAccount(t *testing.T) {
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	if err := scraper.LoginOpenAccount(); err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
 	}

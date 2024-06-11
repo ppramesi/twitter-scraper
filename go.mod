@@ -1,6 +1,6 @@
-module github.com/n0madic/twitter-scraper
+module github.com/ppramesi/twitter-scraper
 
-go 1.16
+go 1.21
 
 require (
 	github.com/google/go-cmp v0.5.9

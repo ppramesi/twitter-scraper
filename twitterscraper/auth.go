@@ -141,7 +141,7 @@ func (s *Scraper) getFlowToken(data map[string]interface{}) (string, error) {
 
 // IsLoggedIn check if scraper logged in
 func (s *Scraper) IsLoggedIn() bool {
-	s.isLogged = true
+	s.isLoggedIn = true
 	s.setBearerToken(bearerToken2)
 	req, err := http.NewRequest("GET", "https://api.twitter.com/1.1/account/verify_credentials.json", nil)
 	if err != nil {
@@ -150,12 +150,12 @@ func (s *Scraper) IsLoggedIn() bool {
 	var verify verifyCredentials
 	err = s.RequestAPI(req, &verify)
 	if err != nil || verify.Errors != nil {
-		s.isLogged = false
+		s.isLoggedIn = false
 		s.setBearerToken(bearerToken)
 	} else {
-		s.isLogged = true
+		s.isLoggedIn = true
 	}
-	return s.isLogged
+	return s.isLoggedIn
 }
 
 // Login to Twitter
@@ -290,7 +290,7 @@ func (s *Scraper) Login(credentials ...string) error {
 		}
 	}
 
-	s.isLogged = true
+	s.isLoggedIn = true
 	s.isOpenAccount = false
 	return nil
 }
@@ -344,7 +344,7 @@ func (s *Scraper) LoginOpenAccount() error {
 			if s.oAuthToken == "" || s.oAuthSecret == "" {
 				return fmt.Errorf("auth error: %v", "Token or Secret is empty")
 			}
-			s.isLogged = true
+			s.isLoggedIn = true
 			s.isOpenAccount = true
 			return nil
 		}
@@ -363,12 +363,12 @@ func (s *Scraper) Logout() error {
 		return err
 	}
 
-	s.isLogged = false
+	s.isLoggedIn = false
 	s.isOpenAccount = false
 	s.guestToken = ""
 	s.oAuthToken = ""
 	s.oAuthSecret = ""
-	s.client.Jar, _ = cookiejar.New(nil)
+	// s.client.Jar, _ = cookiejar.New(nil)
 	s.setBearerToken(bearerToken)
 	return nil
 }

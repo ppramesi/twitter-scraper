@@ -3,11 +3,11 @@ package twitterscraper_test
 import (
 	"testing"
 
-	twitterscraper "github.com/n0madic/twitter-scraper"
+	twitterscraper "github.com/ppramesi/twitter-scraper/twitterscraper"
 )
 
 func TestGetGuestToken(t *testing.T) {
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	if err := scraper.GetGuestToken(); err != nil {
 		t.Errorf("getGuestToken() error = %v", err)
 	}

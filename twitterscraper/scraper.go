@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net"
 	"net/http"
-	"net/http/cookiejar"
 	"net/url"
 	"strings"
 	"sync"
@@ -22,13 +21,14 @@ type Scraper struct {
 	guestToken     string
 	guestCreatedAt time.Time
 	includeReplies bool
-	isLogged       bool
+	isLoggedIn     bool
 	isOpenAccount  bool
 	oAuthToken     string
 	oAuthSecret    string
 	proxy          string
 	searchMode     SearchMode
 	wg             sync.WaitGroup
+	authTokens     []AuthToken
 }
 
 // SearchMode type
@@ -48,17 +48,17 @@ const (
 )
 
 // default http client timeout
-const DefaultClientTimeout = 10 * time.Second
+const DefaultClientTimeout = 30 * time.Second
 
 // New creates a Scraper object
-func New() *Scraper {
-	jar, _ := cookiejar.New(nil)
+func New(tokens []AuthToken) *Scraper {
 	return &Scraper{
 		bearerToken: bearerToken,
 		client: &http.Client{
-			Jar:     jar,
 			Timeout: DefaultClientTimeout,
 		},
+		authTokens: tokens,
+		isLoggedIn: true,
 	}
 }
 

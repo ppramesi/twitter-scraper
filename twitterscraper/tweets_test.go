@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	twitterscraper "github.com/n0madic/twitter-scraper"
+	twitterscraper "github.com/ppramesi/twitter-scraper/twitterscraper"
 )
 
 var cmpOptions = cmp.Options{
@@ -20,7 +20,7 @@ func TestGetTweets(t *testing.T) {
 	count := 0
 	maxTweetsNbr := 300
 	dupcheck := make(map[string]bool)
-	scraper := twitterscraper.New()
+	scraper := twitterscraper.New([]twitterscraper.AuthToken{})
 	err := scraper.LoginOpenAccount()
 	if err != nil {
 		t.Fatalf("LoginOpenAccount() error = %v", err)
